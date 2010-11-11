@@ -1,0 +1,6 @@
+D:\Random\Ongle\Ongle\bin\Debug\Ongle.exe
+D:\Random\Ongle\Ongle\bin\Debug\Ongle.pdb
+D:\Random\Ongle\Ongle\obj\Debug\ResolveAssemblyReference.cache
+D:\Random\Ongle\Ongle\obj\Debug\Ongle.exe
+D:\Random\Ongle\Ongle\obj\Debug\Ongle.pdb
+D:\Random\Ongle\Ongle\bin\Debug\Ninject.dll

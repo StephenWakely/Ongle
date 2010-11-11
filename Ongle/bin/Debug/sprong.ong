@@ -1,0 +1,16 @@
+x= {
+	y = 1
+	> 'x says y=' + y + newline
+}
+
+y = 3
+
+z = {
+	y = 9
+	> 'z says y=' + y + newline
+}
+
+x
+z
+> 'we say y is ' + y + newline
+x

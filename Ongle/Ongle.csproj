@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7622814C-F4A0-48B6-B546-1683E2DB2394}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ongle</RootNamespace>
+    <AssemblyName>Ongle</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Commandlineparameters>sprong.ong</Commandlineparameters>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Ninject.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dynamic.cs" />
+    <Compile Include="IStandardOut.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RunModule.cs" />
+    <Compile Include="RunOngle.cs" />
+    <Compile Include="Scanner.cs" />
+    <Compile Include="StandardOut.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\Token.cs" />
+    <Compile Include="Executor\Executor.cs" />
+    <Compile Include="Executor\Executors.cs" />
+    <Compile Include="Executor\IAssignExecutor.cs" />
+    <Compile Include="Executor\IDeclareVarExecutor.cs" />
+    <Compile Include="Executor\IIfExecutor.cs" />
+    <Compile Include="Executor\IPrintExecutor.cs" />
+    <Compile Include="Executor\IVariableExecutor.cs" />
+    <Compile Include="Parser\Block.cs" />
+    <Compile Include="Parser\IStatement.cs" />
+    <Compile Include="Parser\DeclareVar.cs" />
+    <Compile Include="Parser\Print.cs" />
+    <Compile Include="Parser\Assign.cs" />
+    <Compile Include="Parser\If.cs" />
+    <Compile Include="Parser\Expression.cs" />
+    <Compile Include="Parser\ArithExpr.cs" />
+    <Compile Include="Parser\StringLiteral.cs" />
+    <Compile Include="Parser\NumberLiteral.cs" />
+    <Compile Include="Parser\Variable.cs" />
+    <Compile Include="Scope.cs" />
+    <Compile Include="IScope.cs" />
+    <Compile Include="Parser\ValueParser.cs" />
+    <Compile Include="Parser\BlockParser.cs" />
+    <Compile Include="Executor\ExecutorFactory.cs" />
+    <Compile Include="Executor\IExecutorFactory.cs" />
+    <Compile Include="Parser\IBlockParser.cs" />
+    <Compile Include="Parser\IValueParser.cs" />
+    <Compile Include="Parser\ArrayExpr.cs" />
+    <Compile Include="Executor\ArrayExecutor.cs" />
+    <Compile Include="Executor\IArrayExecutor.cs" />
+    <Compile Include="Tokens.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Folder Include="Parser\" />
+    <Folder Include="Executor\" />
+  </ItemGroup>
+</Project>

@@ -8,7 +8,18 @@ namespace Ongle
 	// <ident_rest> := <char> | <digit>
 	public class Variable : Expression
 	{
-		public string Ident;
+		public string Ident
+		{
+			get;
+			set;
+		}
+		
+		public Expression Indexer
+		{
+			get;
+			set;
+		}
+		
 		IVariableExecutor _executor;
 
 		public Variable ( IVariableExecutor executor )
@@ -19,6 +30,13 @@ namespace Ongle
 		public override Dynamic Evaluate ()
 		{
 			Dynamic dynamic = this.Scope.GetDynamic ( Ident );
+			
+			if (dynamic.Type == DynamicType.arrayType)
+			{				
+				Dynamic index = Indexer.Evaluate();
+				return dynamic.ArrayValue[(Int32)Math.Truncate (index.NumberValue)];
+			}
+			
 			return dynamic;
 		}
 

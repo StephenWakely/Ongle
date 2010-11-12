@@ -1,21 +1,22 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Tests/VariableTests.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Ongle/Program.cs" ctype="Workbench">
     <Files>
-      <File FileName="Ongle/Parser/ValueParser.cs" Line="1" Column="1" />
-      <File FileName="Ongle/Tokens.cs" Line="1" Column="1" />
-      <File FileName="Tests/ArrayTest.cs" Line="87" Column="39" />
-      <File FileName="Ongle/Parser/IValueParser.cs" Line="13" Column="4" />
-      <File FileName="Ongle/Parser/StringLiteral.cs" Line="6" Column="2" />
-      <File FileName="Ongle/Parser/ArithExpr.cs" Line="1" Column="1" />
-      <File FileName="Ongle/Parser/ArrayExpr.cs" Line="33" Column="1" />
-      <File FileName="Ongle/Parser/Variable.cs" Line="28" Column="31" />
-      <File FileName="Tests/VariableTests.cs" Line="23" Column="4" />
+      <File FileName="Ongle/Scanner.cs" Line="128" Column="55" />
+      <File FileName="Tests/RunOngleTest.cs" Line="61" Column="1" />
+      <File FileName="Tests/ArrayTest.cs" Line="107" Column="4" />
+      <File FileName="Ongle/Parser/BlockParser.cs" Line="1" Column="1" />
+      <File FileName="Ongle/Parser/Variable.cs" Line="39" Column="4" />
+      <File FileName="Ongle/Executor/Executors.cs" Line="109" Column="4" />
+      <File FileName="Ongle/Program.cs" Line="13" Column="26" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Tests" expanded="True" selected="True" />
+          <Node name="Ongle" expanded="True">
+            <Node name="Program.cs" selected="True" />
+          </Node>
+          <Node name="Tests" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
@@ -32,7 +33,9 @@
         <State expanded="True">
           <Node name="Tests" expanded="True">
             <Node name="Tests" expanded="True">
-              <Node name="ArrayTest" selected="True" />
+              <Node name="ArrayTest" expanded="True">
+                <Node name="TestEvaluateArrayWithArithLiterals" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>

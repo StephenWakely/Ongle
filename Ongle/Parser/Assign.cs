@@ -7,8 +7,17 @@ namespace Ongle
 	// <ident> = <expr>
 	public class Assign : Expression
 	{
-		public string Ident;
-		public Expression Expr;
+		public string Ident
+		{
+			get;
+			set;
+		}
+		
+		public Expression Expr
+		{
+			get;
+			set;
+		}
 
 		private IAssignExecutor _executor;
 

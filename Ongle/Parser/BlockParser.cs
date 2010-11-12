@@ -9,8 +9,8 @@ namespace Ongle
 	{
 		const string BeginBlock = "{";
 		const string EndBlock = "}";		
-		const string PrintTag = ">";
-		const string IfTag = "?";
+		const string PrintTag = "print";
+		const string IfTag = "if";
 		const string EndTag = ".";
 
 
@@ -59,7 +59,7 @@ namespace Ongle
 					// Print statement
 					tokens.Remove ( currentToken );
 					Print print = new Print( _executorFactory.GetPrintExecutor ());
-					print.Expr = ParseExpression ( block, tokens );
+					print.Expr = ParseExpression ( block.Scope, tokens );
 
 					block.Add ( print );
 				}
@@ -68,48 +68,57 @@ namespace Ongle
 					// If statement
 					tokens.Remove ( currentToken );
 					If iff = new If ( _executorFactory.GetIfExecutor ());
-					iff.Test = ParseExpression ( block, tokens );
+					iff.Test = ParseExpression ( block.Scope, tokens );
 					iff.Body = GetBlock ( block.Scope, tokens );
 
 					block.Add ( iff );
 				}
 				else
 				{
-					Token firstToken = currentToken;
-					tokens.Remove ( currentToken );
+					string firstToken = tokens.PullToken ();
 
 					// Look ahead to see if this is an assignment
-					if ( tokens.Count > 0 && tokens[0].Value == "=" )
+					if ( tokens.Count > 0 && tokens.PeekToken () == "=" )
 					{
-						Token nextToken = tokens[0];
-						tokens.Remove ( nextToken );
+						tokens.PullToken ();
 
 						// it is an assignment.
 						Assign assign = new Assign ( _executorFactory.GetAssignExecutor() );
-						assign.Ident = firstToken.Value;
+						assign.Ident = firstToken;
 
 						block.Add ( assign );
 
-						Expression expression = ParseExpression ( block, tokens );
+						Expression expression = ParseExpression ( block.Scope, tokens );
 						assign.Expr = expression;
 					}
 					else
 					{
 						// This is a block call
 						Variable variable = new Variable ( _executorFactory.GetVariableExecutor() );
-						variable.Ident = firstToken.Value;
+						variable.Scope = block.Scope;
+						variable.Ident = firstToken;
+
+						// Check if there is an indexer into the variable
+						if (tokens.PeekToken () == "[")
+						{
+							tokens.PullToken ();
+							variable.Indexer = ParseExpression ( block.Scope, tokens );
+							
+							tokens.RemoveNextToken ("]");
+						}
+						
 						block.Add ( variable );
 					}
 				}
 			}
 		}
 
-		private Expression ParseExpression ( Block block, Tokens tokens )
+		public Expression ParseExpression ( IScope scope, Tokens tokens )
 		{
 			Expression leftExpression = null;
 
 			// Get the left value
-			leftExpression = _valueParser.ParseValue ( block.Scope, tokens );
+			leftExpression = _valueParser.ParseValue ( scope, tokens );
 
 			if ( leftExpression == null )
 			{
@@ -122,13 +131,13 @@ namespace Ongle
 				ArithOp op = ParseOperator ( tokens );
 				if ( op != ArithOp.none )
 				{
-					Expression rightExpression = ParseExpression ( block, tokens );
+					Expression rightExpression = ParseExpression ( scope, tokens );
 
 					if ( rightExpression != null )
 					{
 						ArithExpr arithExpression = new ArithExpr
 						{
-							Scope = block.Scope,
+							Scope = scope,
 							Left = leftExpression,
 							Op = op,
 							Right = rightExpression
@@ -169,6 +178,16 @@ namespace Ongle
 			{
 				tokens.Remove ( nextToken );
 				return ArithOp.Equality;
+			}
+			else if ( nextToken.Value == "<" )
+			{
+				tokens.Remove ( nextToken );
+				return ArithOp.LessThan;               
+			}
+			else if ( nextToken.Value == ">" )
+			{
+				tokens.Remove ( nextToken );
+				return ArithOp.GreaterThan;               
 			}
 
 			return ArithOp.none;

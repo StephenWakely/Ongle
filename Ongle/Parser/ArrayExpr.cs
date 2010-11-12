@@ -6,11 +6,11 @@ namespace Ongle
 {
 	public class ArrayExpr : Expression
 	{
-		private IArrayExecutor _executor;
+		//private IArrayExecutor _executor;
 		private List<Expression> _elements = new List<Expression>();
 		public ArrayExpr (IArrayExecutor executor)
 		{
-			_executor = executor;
+			//_executor = executor;
 		}
 		
 		public List<Expression> Elements

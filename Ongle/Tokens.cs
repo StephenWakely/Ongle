@@ -35,6 +35,19 @@ namespace Ongle
 			}				
 		}
 		
+		public void AddToken(string tokenValue)
+		{
+			this.Add (new Token (tokenValue));				
+		}
+		
+		public void AddTokens(string[] tokensValue)
+		{
+			foreach ( string token in tokensValue )
+			{
+				this.AddToken ( token );	
+			}
+		}
+		
 		public void Remove(Token token)
 		{
 			_list.Remove(token);			

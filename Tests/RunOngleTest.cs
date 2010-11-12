@@ -26,7 +26,7 @@ namespace Tests
 
 			string line = 
 @"x = 5
-> 5";
+print 5";
 			MemoryStream stream = new MemoryStream ( new System.Text.ASCIIEncoding ().GetBytes ( line ) );
 
 			target.Run ( stream );
@@ -43,8 +43,10 @@ namespace Tests
 
 			string line =
 @"x = 5
-? x==5
-> 'yay'";
+if x == 5
+{
+print 'yay'
+}";
 			MemoryStream stream = new MemoryStream ( new System.Text.ASCIIEncoding ().GetBytes ( line ) );
 
 			target.Run ( stream );
@@ -60,9 +62,11 @@ namespace Tests
 			RunOngle target = new RunOngle ( kernel );
 
 			string line =
-@"x=5
-?x==4
-> 'yay'";
+@"x = 5
+if x == 4
+{
+print 'yay'
+}";
 			MemoryStream stream = new MemoryStream ( new System.Text.ASCIIEncoding ().GetBytes ( line ) );
 
 			target.Run ( stream );

@@ -108,6 +108,12 @@ namespace Ongle
 		public void Execute ( Variable variable )
 		{
 			Dynamic dynamic = Scope.GetDynamic ( variable.Ident );
+			if (dynamic.Type == DynamicType.arrayType)
+			{
+				Dynamic index = variable.Indexer.Evaluate();
+				dynamic = dynamic.ArrayValue[(Int32)Math.Truncate (index.NumberValue)];
+			}
+
 			if ( dynamic.BlockValue != null )
 			{
 				dynamic.BlockValue.Execute ();

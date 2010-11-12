@@ -50,6 +50,22 @@ namespace Ongle
 					Scope = this.Scope
 				};
 			}
+			else if ( Op == ArithOp.LessThan )
+			{
+				return new Dynamic ()
+				{
+					BoolValue = left.NumberValue < right.NumberValue,
+					Scope = this.Scope
+				};
+			}
+			else if ( Op == ArithOp.GreaterThan )
+			{
+				return new Dynamic ()
+				{
+					BoolValue = left.NumberValue > right.NumberValue,
+					Scope = this.Scope
+				};
+			}
 
 			if ( left.Type == DynamicType.numberType && right.Type == DynamicType.numberType )
 			{
@@ -116,6 +132,8 @@ namespace Ongle
 		Sub,
 		Mul,
 		Div,
-		Equality
+		Equality,
+		LessThan,
+		GreaterThan
 	}
 }

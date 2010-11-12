@@ -24,7 +24,7 @@ namespace Tests
 		public void ParseSimplePrintTest ()
 		{
 			Tokens tokens = new Tokens();
-			tokens.Add(new Token(">"));
+			tokens.Add(new Token("print"));
 			tokens.Add(new Token("'ongle'"));
 
 			Parser parser = new Parser ( TestModule.GetTestKernel() );
@@ -38,7 +38,7 @@ namespace Tests
 		public void StringLiteralPrintTest ()
 		{
 			Tokens tokens = new Tokens ();
-			tokens.Add ( new Token ( ">" ) );
+			tokens.Add ( new Token ( "print" ) );
 			tokens.Add ( new Token ( "'ongle'" ) );
 
 			Parser parser = new Parser ( TestModule.GetTestKernel () );
@@ -54,7 +54,7 @@ namespace Tests
 		public void ParsePrintAddingStringsTest ()
 		{
 			Tokens tokens = new Tokens ();
-			tokens.Add ( new Token ( ">" ) );
+			tokens.Add ( new Token ( "print" ) );
 			tokens.Add ( new Token ( "'ongle'" ) );
 			tokens.Add ( new Token ( "+" ) );
 			tokens.Add ( new Token ( "'ooog'" ) );
@@ -107,7 +107,7 @@ namespace Tests
 			tokens.Add ( new Token ( "x" ) );
 			tokens.Add ( new Token ( "=" ) );
 			tokens.Add ( new Token ( "{" ) );
-			tokens.Add ( new Token ( ">" ) );
+			tokens.Add ( new Token ( "print" ) );
 			tokens.Add ( new Token ( "'bong'" ) );
 			tokens.Add ( new Token ( "}" ) );
 
@@ -126,7 +126,7 @@ namespace Tests
 			tokens.Add ( new Token ( "x" ) );
 			tokens.Add ( new Token ( "=" ) );
 			tokens.Add ( new Token ( "{" ) );
-			tokens.Add ( new Token ( ">" ) );
+			tokens.Add ( new Token ( "print" ) );
 			tokens.Add ( new Token ( "'bong'" ) );
 			tokens.Add ( new Token ( "}" ) );
 			tokens.Add ( new Token ( "x" ) );
@@ -149,26 +149,30 @@ namespace Tests
 			Assert.IsInstanceOfType ( typeof ( If ), parser.MainBlock[0] );
 		}
 
-		//[Test ()]
-		//public void ParseSimpleIfHasCorrectExpressionTest ()
-		//{
-		//    Parser parser = ParseSimpleIf ();
-
-		//    Assert.AreEqual ( 1, parser.Statements.Count );
-		//    Assert.IsInstanceOfType ( (parser.Statements[0] as If).Test, typeof ( Comparison ) );
-		//}
-
-
+		[Test ()]
+		public void ParseNestedBlockTest ()
+		{
+			Tokens tokens = new Tokens ();
+			tokens.AddTokens ( new string[] { "x", "=", "{", "if", "x", "==", "5", "{", "print", "x", "}", "}", "print", "x" } );
+			
+			Parser parser = new Parser ( TestModule.GetTestKernel () );
+			Block block = parser.Parse ( tokens );
+			
+			Assert.AreEqual ( 2, block.Count, "Should be two statements, one assign, one print");
+		}
+			
+		
 		private static Parser ParseSimpleIf ()
 		{
 			Tokens tokens = new Tokens ();
-			tokens.Add ( new Token ( "?" ) );
+			tokens.Add ( new Token ( "if" ) );
 			tokens.Add ( new Token ( "x" ) );
 			tokens.Add ( new Token ( "==" ) );
 			tokens.Add ( new Token ( "5" ) );
-			tokens.Add ( new Token ( ">" ) );
+			tokens.Add ( new Token ( "{" ) );
+			tokens.Add ( new Token ( "print" ) );
 			tokens.Add ( new Token ( "'yay'" ) );
-			tokens.Add ( new Token ( "." ) );
+			tokens.Add ( new Token ( "}" ) );
 
 			Parser parser = new Parser ( TestModule.GetTestKernel () );
 			parser.Parse ( tokens );

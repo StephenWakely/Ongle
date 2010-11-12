@@ -55,6 +55,7 @@
     <Compile Include="TestModule.cs" />
     <Compile Include="ArrayTest.cs" />
     <Compile Include="VariableTests.cs" />
+    <Compile Include="IfTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -9,7 +9,7 @@ namespace Ongle
 		const string BeginBlock = "{";
 		const string EndBlock = "}";		
 		const string PrintTag = ">";
-		const string IfTag = "?";
+		const string IfTag = "if";
 		const string EndTag = ".";
 		const string BeginArray = "(";
 		const string EndArray = ")";
@@ -72,8 +72,19 @@ namespace Ongle
 			}
 			else
 			{
-				value = new Variable ( _executorFactory.GetVariableExecutor () );
-				(value as Variable).Ident = tokens.PullToken();
+				var variable = new Variable ( _executorFactory.GetVariableExecutor () );
+				variable.Scope = scope;
+				variable.Ident = tokens.PullToken();
+
+								// Check if there is an indexer into the variable
+				if (tokens.PeekToken () == "[")
+				{
+					tokens.PullToken ();
+					variable.Indexer = _blockParser.ParseExpression ( scope, tokens );					
+					tokens.RemoveNextToken ("]");
+				}
+				
+				value = variable;
 			}
 
 			return value;

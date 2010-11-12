@@ -54,7 +54,7 @@ namespace Ongle
 
 		protected static bool IsSymbol ( char ch )
 		{
-			return ch == '*' || ch == '+' || ch == '=' || ch == '-' || ch == '/' || ch == '?' || ch == '>' || ch == '{' || ch == '}';
+			return new List<char> {'*','+','=','-','/','?','<','>','{','}','[',']', '(', ')', ','}.Contains(ch);
 		}
 
 		protected static bool IsCharacter ( char ch )

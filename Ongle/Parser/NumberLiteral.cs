@@ -6,7 +6,12 @@ namespace Ongle
 	// <int> := <digit>+
 	public class NumberLiteral : Expression
 	{
-		public double Value;
+		public double Value
+		{
+			get;
+			set;
+		}
+		
 		public override Dynamic Evaluate ()
 		{
 			return new Dynamic ()

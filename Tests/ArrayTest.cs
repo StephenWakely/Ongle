@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Ongle;
 using System.Collections.Generic;
 using Ninject;
+using System.IO;
 
 namespace Tests
 {
@@ -25,6 +26,26 @@ namespace Tests
 			return tokens;
 		}
 
+		[Test()]
+		public void TestScanSimpleArray ()
+		{
+			string line = "x = (1, '3', 4+3)";
+			MemoryStream stream = new MemoryStream ( new System.Text.ASCIIEncoding().GetBytes(line) );
+			Scanner scanner = new Scanner (stream);
+
+			Assert.AreEqual ("x", scanner.Tokens.PullToken());
+			Assert.AreEqual ("=", scanner.Tokens.PullToken());
+			Assert.AreEqual ("(", scanner.Tokens.PullToken());
+			Assert.AreEqual ("1", scanner.Tokens.PullToken());
+			Assert.AreEqual (",", scanner.Tokens.PullToken());
+			Assert.AreEqual ("'3'", scanner.Tokens.PullToken());
+			Assert.AreEqual (",", scanner.Tokens.PullToken());
+			Assert.AreEqual ("4", scanner.Tokens.PullToken());
+			Assert.AreEqual ("+", scanner.Tokens.PullToken());
+			Assert.AreEqual ("3", scanner.Tokens.PullToken());
+			Assert.AreEqual (")", scanner.Tokens.PullToken());			
+		}
+		
 		[Test()]
 		public void TestParseArrayCreatesArray ()
 		{

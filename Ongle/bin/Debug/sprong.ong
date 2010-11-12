@@ -1,8 +1,8 @@
-x = 5
-y = {
-	x = x + 1
-	print x + newline
-	if x < 50
+x=5
+y={
+	x=x+1
+	print x+newline
+	if x<50
 	{
 		y
 	}

@@ -29,7 +29,7 @@ namespace Tests
 		[Test()]
 		public void TestScanSimpleArray ()
 		{
-			string line = "x = (1, '3', 4+3)";
+			string line = "x=(1,'3',4+3)";
 			MemoryStream stream = new MemoryStream ( new System.Text.ASCIIEncoding().GetBytes(line) );
 			Scanner scanner = new Scanner (stream);
 

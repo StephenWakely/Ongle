@@ -51,7 +51,7 @@ namespace Tests
 		{
 			var tokens = CreateSimpleArray ();
 			IKernel kernel = TestModule.GetTestKernel ();
-			IValueParser parser = kernel.Get<IValueParser> (); 
+			IExpressionParser parser = kernel.Get<IExpressionParser> (); 
 			Expression array = parser.ParseArray(new Scope(), tokens);			
 			Assert.IsInstanceOfType ( typeof(ArrayExpr), array, "Should be array type" );			
 		}
@@ -62,7 +62,7 @@ namespace Tests
 			var tokens = CreateSimpleArray();
 			
 			IKernel kernel = TestModule.GetTestKernel ();
-			IValueParser parser = kernel.Get<IValueParser> (); 
+			IExpressionParser parser = kernel.Get<IExpressionParser> (); 
 			ArrayExpr array = parser.ParseArray(new Scope(), tokens) as ArrayExpr;			
 
 			Assert.AreEqual ( 3, array.Elements.Count, "Array should have 3 elements");

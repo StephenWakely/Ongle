@@ -11,18 +11,19 @@ namespace Ongle
 		const string EndBlock = "}";		
 		const string PrintTag = "print";
 		const string IfTag = "if";
-		const string EndTag = ".";
-
-
-		private IExecutorFactory _executorFactory;
-		private IValueParser _valueParser;
 		
-		[Inject]
-		public BlockParser (IExecutorFactory executorFactory, IValueParser valueParser )
+		private List<IStatementParser> _parsers = new List<IStatementParser>();
+		
+		public List<IStatementParser> Parsers
 		{
-			this._executorFactory = executorFactory;
-			this._valueParser = valueParser;
-			this._valueParser.BlockParser = this;
+			get
+			{
+				return _parsers;
+			}
+		}
+		
+		public BlockParser ()
+		{
 		}
 
 		public Block GetBlock ( IScope scope, Tokens tokens )
@@ -37,161 +38,35 @@ namespace Ongle
 		public void ParseBlock ( Block block, Tokens tokens )
 		{
 			bool enclosed = false;
-			Token currentToken = tokens[0];
-			if ( currentToken.Value == BeginBlock )
+			if ( tokens.PeekToken () == BeginBlock )
 			{
 				enclosed = true;
-				tokens.Remove ( currentToken );
+				tokens.RemoveNextToken ( BeginBlock );
 			}
 
 			while ( tokens.Count > 0 )
 			{
-				currentToken = tokens[0];
-
-				if ( ( enclosed && currentToken.Value == EndBlock ) || currentToken.Value == EndTag )
+				if ( enclosed && tokens.PeekToken () == EndBlock )
 				{
-					tokens.Remove ( currentToken );
+					tokens.RemoveNextToken ( EndBlock );
 					break;
 				}
-
-				if ( currentToken.Value == PrintTag )
+				
+				bool parsed = false;
+				foreach ( IStatementParser parser in _parsers )
 				{
-					// Print statement
-					tokens.Remove ( currentToken );
-					Print print = new Print( _executorFactory.GetPrintExecutor ());
-					print.Expr = ParseExpression ( block.Scope, tokens );
-
-					block.Add ( print );
-				}
-				else if ( currentToken.Value == IfTag )
-				{
-					// If statement
-					tokens.Remove ( currentToken );
-					If iff = new If ( _executorFactory.GetIfExecutor ());
-					iff.Test = ParseExpression ( block.Scope, tokens );
-					iff.Body = GetBlock ( block.Scope, tokens );
-
-					block.Add ( iff );
-				}
-				else
-				{
-					string firstToken = tokens.PullToken ();
-
-					// Look ahead to see if this is an assignment
-					if ( tokens.Count > 0 && tokens.PeekToken () == "=" )
+					IStatement nextStatement;
+					if ( parser.TryParse( tokens, block.Scope, out nextStatement ) )
 					{
-						tokens.PullToken ();
-
-						// it is an assignment.
-						Assign assign = new Assign ( _executorFactory.GetAssignExecutor() );
-						assign.Ident = firstToken;
-
-						block.Add ( assign );
-
-						Expression expression = ParseExpression ( block.Scope, tokens );
-						assign.Expr = expression;
-					}
-					else
-					{
-						// This is a block call
-						Variable variable = new Variable ( _executorFactory.GetVariableExecutor() );
-						variable.Scope = block.Scope;
-						variable.Ident = firstToken;
-
-						// Check if there is an indexer into the variable
-						if (tokens.PeekToken () == "[")
-						{
-							tokens.PullToken ();
-							variable.Indexer = ParseExpression ( block.Scope, tokens );
-							
-							tokens.RemoveNextToken ("]");
-						}
-						
-						block.Add ( variable );
+						block.Add ( nextStatement );
+						parsed = true;
+						break;
 					}
 				}
+				
+				if (!parsed)
+					throw new Exception("Unable to parse token " + tokens.PeekToken() );
 			}
 		}
-
-		public Expression ParseExpression ( IScope scope, Tokens tokens )
-		{
-			Expression leftExpression = null;
-
-			// Get the left value
-			leftExpression = _valueParser.ParseValue ( scope, tokens );
-
-			if ( leftExpression == null )
-			{
-				throw new Exception ( "Expecting a value" );
-			}
-
-			// Check if there is an operator which will continue the expression
-			if ( tokens.Count > 0 )
-			{
-				ArithOp op = ParseOperator ( tokens );
-				if ( op != ArithOp.none )
-				{
-					Expression rightExpression = ParseExpression ( scope, tokens );
-
-					if ( rightExpression != null )
-					{
-						ArithExpr arithExpression = new ArithExpr
-						{
-							Scope = scope,
-							Left = leftExpression,
-							Op = op,
-							Right = rightExpression
-						};
-
-						return arithExpression;
-					}
-				}
-			}
-
-			return leftExpression;
-		}
-
-		private ArithOp ParseOperator ( Tokens tokens )
-		{
-			Token nextToken = tokens[0];
-			if ( nextToken.Value == "+" )
-			{
-				tokens.Remove ( nextToken );
-				return ArithOp.Add;
-			}
-			else if ( nextToken.Value == "-" )
-			{
-				tokens.Remove ( nextToken );
-				return ArithOp.Sub;
-			}
-			else if ( nextToken.Value == "*" )
-			{
-				tokens.Remove ( nextToken );
-				return ArithOp.Mul;
-			}
-			else if ( nextToken.Value == "/" )
-			{
-				tokens.Remove ( nextToken );
-				return ArithOp.Div;
-			}
-			else if ( nextToken.Value == "==" )
-			{
-				tokens.Remove ( nextToken );
-				return ArithOp.Equality;
-			}
-			else if ( nextToken.Value == "<" )
-			{
-				tokens.Remove ( nextToken );
-				return ArithOp.LessThan;               
-			}
-			else if ( nextToken.Value == ">" )
-			{
-				tokens.Remove ( nextToken );
-				return ArithOp.GreaterThan;               
-			}
-
-			return ArithOp.none;
-		}
-
 	}
 }

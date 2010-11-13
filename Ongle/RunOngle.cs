@@ -19,9 +19,18 @@ namespace Ongle
 		public void Run ( Stream program )
 		{
 			Scanner scanner = new Scanner ( program );
-			Parser parser = new Parser ( _kernel );
-			Block block = parser.Parse( scanner.Tokens );
-			block.Execute ();
+			
+			try
+			{
+				Parser parser = new Parser ( _kernel );
+				Block block = parser.Parse( scanner.Tokens );
+				block.Execute ();
+			}
+			catch ( ParseException ex )
+			{
+				Console.WriteLine ( ex.Message );
+			}
+			
 		}
 	}
 }

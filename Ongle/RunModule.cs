@@ -11,9 +11,9 @@ namespace Ongle
 	{
 		public override void Load ()
 		{
-			Bind<IExecutorFactory> ().To<ExecutorFactory> ();
-			Bind<IBlockParser> ().To<BlockParser> ();
-			Bind<IValueParser> ().To<ValueParser> ();
+			Bind<IExecutorFactory> ().To<ExecutorFactory> ().InSingletonScope ();
+			Bind<IBlockParser> ().To<BlockParser> ().InSingletonScope ();
+			Bind<IExpressionParser> ().To<ExpressionParser> ().InSingletonScope ();
 			Bind<IStandardOut> ().To<StandardOut> ().InSingletonScope ();			
 		}
 

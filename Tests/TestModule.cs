@@ -13,9 +13,9 @@ namespace Tests
 		
 		public override void Load ( )
 		{
-			Bind<IExecutorFactory> ().To<ExecutorFactory> ();
+			Bind<IExecutorFactory> ().To<ExecutorFactory> ().InSingletonScope ();
 			Bind<IBlockParser> ().To<BlockParser> ().InSingletonScope ();
-			Bind<IValueParser> ().To<ValueParser> ().InSingletonScope ();
+			Bind<IExpressionParser> ().To<ExpressionParser> ().InSingletonScope ();
 			Bind<IStandardOut> ().To<StandardOutDummy> ().InSingletonScope ();
 		}
 

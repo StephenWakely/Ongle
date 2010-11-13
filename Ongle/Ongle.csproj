@@ -81,16 +81,22 @@
     <Compile Include="Parser\Variable.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="IScope.cs" />
-    <Compile Include="Parser\ValueParser.cs" />
     <Compile Include="Parser\BlockParser.cs" />
     <Compile Include="Executor\ExecutorFactory.cs" />
     <Compile Include="Executor\IExecutorFactory.cs" />
     <Compile Include="Parser\IBlockParser.cs" />
-    <Compile Include="Parser\IValueParser.cs" />
     <Compile Include="Parser\ArrayExpr.cs" />
     <Compile Include="Executor\ArrayExecutor.cs" />
     <Compile Include="Executor\IArrayExecutor.cs" />
     <Compile Include="Tokens.cs" />
+    <Compile Include="Parser\IStatementParser.cs" />
+    <Compile Include="Parser\PrintParser.cs" />
+    <Compile Include="Parser\IExpressionParser.cs" />
+    <Compile Include="Parser\ExpressionParser.cs" />
+    <Compile Include="Parser\IfParser.cs" />
+    <Compile Include="Parser\AssignmentParser.cs" />
+    <Compile Include="Parser\CallParser.cs" />
+    <Compile Include="Exceptions\ParseException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -103,5 +109,6 @@
   <ItemGroup>
     <Folder Include="Parser\" />
     <Folder Include="Executor\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 </Project>

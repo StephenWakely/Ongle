@@ -26,8 +26,7 @@ namespace Tests
 			var tokens = GetIf ();
 	
 			IKernel kernel = TestModule.GetTestKernel ();
-			IBlockParser parser = kernel.Get<IBlockParser> (); 
-			Block block = parser.GetBlock(new Scope(), tokens);			
+			Block block = new Parser ( kernel ).Parse ( tokens );
 			return block;
 		}
 

@@ -15,9 +15,9 @@ namespace Ongle
 			_setupDefaultVariables();
 		}
 		
-		public Scope ( IScope heap )
+		public Scope ( IScope inheritedScope )
 		{
-			_inheritedScope = heap;
+			_inheritedScope = inheritedScope;
 		}
 
 		/// <summary>
@@ -27,14 +27,14 @@ namespace Ongle
 		{
 			_lookup.Add ( "newline", new Dynamic { StringValue = Environment.NewLine } );			
 		}
-		
+
 		public Dynamic TryGetDynamic ( string identifier )
 		{
 			Dynamic result = null;
 			
-			if (_lookup.ContainsKey ( identifier ) )
+			if ( _lookup.ContainsKey ( identifier ) )
 				result = _lookup[identifier];
-			else if (_inheritedScope != null)
+			else if ( _inheritedScope != null )
 				result = _inheritedScope.TryGetDynamic ( identifier ); 		
 			    
 			return result;
@@ -76,13 +76,39 @@ namespace Ongle
 			
 			return false;
 		}
+
+		/// <summary>
+		/// Setting a variable with an indexer - the original variable must have already been set
+		/// </summary>
+		public void SetDynamic ( string identifier, Dynamic indexer, Dynamic dynamic )
+		{
+			Dynamic variable = TryGetDynamic ( identifier );
+			if (variable == null) // TODO Better error 
+				throw new Exception ("Indexing into non-existant array");
 			
+			if (variable.Type != DynamicType.arrayType) // TODO Better error 
+				throw new Exception ("Indexing into non-array");
+			
+			variable.ArrayValue[(Int32)Math.Truncate(indexer.NumberValue)] = dynamic;
+		}
+
 		public void SetDynamic ( string identifier, Dynamic dynamic )
 		{
 			if ( !TrySetDynamic ( identifier, dynamic ) ) 
 			{
-				_lookup[identifier] = dynamic;
+				AddDynamic(identifier, dynamic);
 			}
+		}
+		
+		/// <summary>
+		/// Adds the varible at this level of scope 
+		/// </summary>
+		public void AddDynamic ( string identifier, Dynamic dynamic )
+		{
+			if (dynamic == null)
+				_lookup.Remove ( identifier );
+			else
+				_lookup[identifier] = dynamic;			
 		}
 	}
 }

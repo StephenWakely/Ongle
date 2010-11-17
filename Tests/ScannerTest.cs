@@ -75,14 +75,14 @@ end";
 			Scanner scanner = new Scanner ( stream );
 
 			Assert.AreEqual ( 8, scanner.Tokens.Count );
-			Assert.AreEqual ( "if", scanner.Tokens[0].Value );
-			Assert.AreEqual ( "ya", scanner.Tokens[1].Value );
-			Assert.AreEqual ( "==", scanner.Tokens[2].Value );
-			Assert.AreEqual ( "'oof'", scanner.Tokens[3].Value );
-			Assert.AreEqual ( "xa", scanner.Tokens[4].Value );
-			Assert.AreEqual ( "=", scanner.Tokens[5].Value );
-			Assert.AreEqual ( "'Groove'", scanner.Tokens[6].Value );
-			Assert.AreEqual ( "end", scanner.Tokens[7].Value );
+			Assert.AreEqual ( "if", scanner.Tokens.PullToken () );
+			Assert.AreEqual ( "ya", scanner.Tokens.PullToken () );
+			Assert.AreEqual ( "==", scanner.Tokens.PullToken () );
+			Assert.AreEqual ( "'oof'", scanner.Tokens.PullToken () );
+			Assert.AreEqual ( "xa", scanner.Tokens.PullToken () );
+			Assert.AreEqual ( "=", scanner.Tokens.PullToken () );
+			Assert.AreEqual ( "'Groove'", scanner.Tokens.PullToken () );
+			Assert.AreEqual ( "end", scanner.Tokens.PullToken () );
 
 		}
 

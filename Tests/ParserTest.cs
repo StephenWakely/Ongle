@@ -78,7 +78,11 @@ namespace Tests
 
 			Assert.AreEqual ( 1, parser.MainBlock.Count );
 			Assert.IsInstanceOfType ( typeof ( Assign ), parser.MainBlock[0] );
-			Assert.AreEqual ( ((Assign)parser.MainBlock[0]).Ident, "ong" );
+
+			Assign assign = parser.MainBlock[0] as Assign;
+			Assert.IsInstanceOfType ( typeof ( Variable ), assign.Ident );
+			
+			Assert.AreEqual ( ((Variable)assign.Ident).Ident, "ong" );
 		}
 
 		[Test ()]
@@ -104,13 +108,7 @@ namespace Tests
 		public void ParseBlockAssignment ()
 		{
 			Tokens tokens = new Tokens ();
-			tokens.Add ( new Token ( "x" ) );
-			tokens.Add ( new Token ( "=" ) );
-			tokens.Add ( new Token ( "{" ) );
-			tokens.Add ( new Token ( "print" ) );
-			tokens.Add ( new Token ( "'bong'" ) );
-			tokens.Add ( new Token ( "}" ) );
-
+			tokens.AddTokens ( new string[] { "x", "=", "{", "print", "'bong'", "}" } );
 			Parser parser = new Parser ( TestModule.GetTestKernel () );
 			parser.Parse ( tokens );
 
@@ -123,13 +121,7 @@ namespace Tests
 		public void ParseBlockCall ()
 		{
 			Tokens tokens = new Tokens ();
-			tokens.Add ( new Token ( "x" ) );
-			tokens.Add ( new Token ( "=" ) );
-			tokens.Add ( new Token ( "{" ) );
-			tokens.Add ( new Token ( "print" ) );
-			tokens.Add ( new Token ( "'bong'" ) );
-			tokens.Add ( new Token ( "}" ) );
-			tokens.Add ( new Token ( "x" ) );
+			tokens.AddTokens ( new string[] { "x", "=", "{", "print", "'bong'", "}", "x" } );
 
 			Parser parser = new Parser ( TestModule.GetTestKernel () );
 			parser.Parse ( tokens );

@@ -66,7 +66,10 @@ namespace Ongle
 			if (Scope == null)
 				Console.WriteLine ( "Scope is null" );
 
-			Scope.SetDynamic ( info.Ident, info.Expr.Evaluate () );
+			if (info.Ident.Indexer != null )
+				Scope.SetDynamic ( info.Ident.Ident, info.Ident.Indexer.Evaluate (), info.Expr.Evaluate () );
+			else
+				Scope.SetDynamic ( info.Ident.Ident, info.Expr.Evaluate () );
 		}
 	}
 
@@ -105,7 +108,7 @@ namespace Ongle
 			set;
 		}
 
-		public void Execute ( Variable variable )
+		public void Execute ( Variable variable, Dynamic parameters )
 		{
 			Dynamic dynamic = Scope.GetDynamic ( variable.Ident );
 			if (dynamic.Type == DynamicType.arrayType)
@@ -116,6 +119,7 @@ namespace Ongle
 
 			if ( dynamic.BlockValue != null )
 			{
+				dynamic.BlockValue.Scope.AddDynamic ( "$", parameters );
 				dynamic.BlockValue.Execute ();
 			}
 		}

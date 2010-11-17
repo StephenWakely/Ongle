@@ -9,6 +9,6 @@ namespace Ongle
 			set;
 		}
 
-		void Execute ( Variable variable );
+		void Execute ( Variable variable, Dynamic parameters );
 	}
 }

@@ -8,19 +8,11 @@ namespace Ongle
 	// <ident_rest> := <char> | <digit>
 	public class Variable : Expression
 	{
-		public string Ident
-		{
-			get;
-			set;
-		}
+		public string Ident { get; set; }		
+		public Expression Indexer { get; set; }
+		public ArrayExpr Parameters { get; set; }
 		
-		public Expression Indexer
-		{
-			get;
-			set;
-		}
-		
-		IVariableExecutor _executor;
+		private IVariableExecutor _executor;
 
 		public Variable ( IVariableExecutor executor )
 		{
@@ -43,7 +35,14 @@ namespace Ongle
 		public override void Execute ()
 		{
 			_executor.Scope = this.Scope;
-			_executor.Execute ( this );
+			Dynamic parameters = null;
+			
+			if (Parameters != null )
+			{
+				parameters = Parameters.Evaluate();
+			}
+			
+			_executor.Execute ( this, parameters );
 		}
 	}
 }

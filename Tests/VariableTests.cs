@@ -123,7 +123,11 @@ namespace Tests
 			
 			Assign assign = new Assign(factory.GetAssignExecutor())
 			{
-				Ident = "x",
+				Ident = new Variable ( factory.GetVariableExecutor ())
+				{
+					Scope = statements.Scope,
+					Ident = "x"	
+				},
 				Expr = array,
 				Scope = statements.Scope
 			};

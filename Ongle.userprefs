@@ -1,31 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Tests/ParserTest.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Tests/ParameterTests.cs" ctype="Workbench">
     <Files>
-      <File FileName="Ongle/Parser/Parser.cs" Line="46" Column="1" />
-      <File FileName="Ongle/Parser/ExpressionParser.cs" Line="57" Column="1" />
-      <File FileName="Ongle/Parser/BlockParser.cs" Line="65" Column="1" />
-      <File FileName="Ongle/Parser/IfParser.cs" Line="33" Column="1" />
-      <File FileName="Ongle/Parser/IExpressionParser.cs" Line="9" Column="3" />
-      <File FileName="Tests/TestModule.cs" Line="18" Column="1" />
-      <File FileName="Tests/ArrayTest.cs" Line="53" Column="49" />
-      <File FileName="Tests/IfTests.cs" Line="38" Column="4" />
-      <File FileName="Ongle/RunModule.cs" Line="16" Column="50" />
-      <File FileName="Ongle/Parser/Block.cs" Line="17" Column="1" />
-      <File FileName="Ongle/Parser/Expression.cs" Line="10" Column="1" />
-      <File FileName="Ongle/Parser/CallParser.cs" Line="35" Column="1" />
-      <File FileName="Ongle/RunOngle.cs" Line="25" Column="1" />
-      <File FileName="Ongle/Program.cs" Line="24" Column="2" />
-      <File FileName="Tests/ParserTest.cs" Line="101" Column="4" />
+      <File FileName="Ongle/Parser/CallParser.cs" Line="26" Column="20" />
+      <File FileName="Ongle/Parser/Variable.cs" Line="43" Column="1" />
+      <File FileName="Ongle/Executor/IVariableExecutor.cs" Line="13" Column="1" />
+      <File FileName="Ongle/Executor/Executors.cs" Line="121" Column="1" />
+      <File FileName="Ongle/Scope.cs" Line="106" Column="1" />
+      <File FileName="Ongle/IScope.cs" Line="12" Column="1" />
+      <File FileName="Ongle/Parser/ExpressionParser.cs" Line="128" Column="46" />
+      <File FileName="Tests/ParameterTests.cs" Line="47" Column="4" />
+      <File FileName="Tests/ParserTest.cs" Line="32" Column="1" />
+      <File FileName="Tests/ExecutorTest.cs" Line="34" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Ongle" expanded="True">
+            <Node name="Executor" expanded="True" />
             <Node name="Parser" expanded="True" />
           </Node>
           <Node name="Tests" expanded="True">
-            <Node name="ParserTest.cs" selected="True" />
+            <Node name="ParameterTests.cs" selected="True" />
           </Node>
         </State>
       </Pad>
@@ -43,11 +39,9 @@
       </Pad>
       <Pad Id="MonoDevelop.NUnit.TestPad">
         <State expanded="True">
-          <Node name="Tests" expanded="True">
+          <Node name="Tests" expanded="True" selected="True">
             <Node name="Tests" expanded="True">
-              <Node name="ArrayTest" expanded="True" />
-              <Node name="IfTests" expanded="True" />
-              <Node name="ScannerTest" selected="True" />
+              <Node name="ParameterTests" expanded="True" />
             </Node>
           </Node>
         </State>
@@ -55,7 +49,10 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/plertrood/src/Ongle/Ongle/Tokens.cs" line="60" />
+      <Breakpoint file="/home/plertrood/src/Ongle/Ongle/Parser/BlockParser.cs" line="47" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches ctype="PinnedWatchStore" />
 </Properties>

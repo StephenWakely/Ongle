@@ -44,7 +44,7 @@ namespace Ongle
 				tokens.RemoveNextToken ( BeginBlock );
 			}
 
-			while ( tokens.Count > 0 )
+			while ( !tokens.AtEnd () )
 			{
 				if ( enclosed && tokens.PeekToken () == EndBlock )
 				{

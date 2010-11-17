@@ -21,7 +21,7 @@ namespace Ongle
 				
 			StreamReader reader = new StreamReader(input);
 
-			Regex tokenizer = new Regex(@"'.*'|\*|\+|==|=|-|/|\?|<|>|{|}|\[|\]|\(|\)|,|\b\w*\b");
+			Regex tokenizer = new Regex(@"'.*'|\*|\+|==|=|\$|-|/|\?|<|>|{|}|\[|\]|\(|\)|,|\b\w*\b");
 			var matches = tokenizer.Matches ( reader.ReadToEnd() ) ;
 			foreach ( Match match in matches )
 				Tokens.AddToken ( match.Value );			

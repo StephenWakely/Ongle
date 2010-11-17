@@ -7,7 +7,7 @@ namespace Ongle
 	// <ident> = <expr>
 	public class Assign : Expression
 	{
-		public string Ident
+		public Variable Ident
 		{
 			get;
 			set;

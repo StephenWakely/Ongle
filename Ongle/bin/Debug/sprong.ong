@@ -1,1 +1,7 @@
-x = 100
+ook = {
+	$[0]
+}
+
+ook( {print 'boo' + $[0] + newline})
+
+

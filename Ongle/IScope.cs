@@ -7,5 +7,7 @@ namespace Ongle
 		Dynamic GetDynamic ( string identifier );
 		bool TrySetDynamic ( string identifier, Dynamic dynamic );
 		void SetDynamic ( string identifier, Dynamic dynamic );
+		void SetDynamic ( string identifier, Dynamic indexer, Dynamic dynamic );
+		void AddDynamic ( string identifier, Dynamic dynamic );
 	}
 }

@@ -75,7 +75,11 @@ namespace Tests
 
 			Assign assign = new Assign ( factory.GetAssignExecutor() );
 			assign.Scope = statements.Scope;
-			assign.Ident = "x";
+			assign.Ident = new Variable ( factory.GetVariableExecutor () )
+			{
+				Ident = "x"
+			};
+			
 			assign.Expr = new StringLiteral
 			{
 				Value = "Yo planet!"
@@ -105,7 +109,10 @@ namespace Tests
 
 			Assign assign = new Assign ( factory.GetAssignExecutor () );
 			assign.Scope = statements.Scope;
-			assign.Ident = "x";
+			assign.Ident = new Variable ( factory.GetVariableExecutor () )
+			{
+				Ident = "x"
+			};
 			assign.Expr = new NumberLiteral
 			{
 				Value = 5
@@ -156,7 +163,10 @@ namespace Tests
 			statements.Scope = new Scope();
 
 			Assign assign = new Assign ( factory.GetAssignExecutor () );
-			assign.Ident = "x";
+			assign.Ident = new Variable ( factory.GetVariableExecutor () )
+			{
+				Ident = "x"
+			};
 			assign.Scope = statements.Scope;
 				
 			Block block = new Block();

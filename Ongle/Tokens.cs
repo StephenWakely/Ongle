@@ -9,6 +9,8 @@ namespace Ongle
 	public class Tokens
 	{
 		private List<Token> _list = new List<Token>();
+		private int _pos = 0;
+		private int _mark = 0;
 
 		public Tokens ()
 		{
@@ -19,22 +21,11 @@ namespace Ongle
 			_list.Add(token);	
 		}
 		
-		public Token this[int index]
-		{
-			get
-			{
-				return _list[index];	
-			}			
-		}
-		
 		public int Count
 		{
-			get
-			{
-				return _list.Count;	
-			}				
+			get { return _list.Count; }	
 		}
-		
+				
 		public void AddToken(string tokenValue)
 		{
 			if (tokenValue.Trim() != "")
@@ -46,20 +37,11 @@ namespace Ongle
 			foreach ( string token in tokensValue )
 				this.AddToken ( token );	
 		}
-		
-		public void Remove(Token token)
-		{
-			_list.Remove(token);			
-		}
-		
-		public void RemoveAt(int index)
-		{
-			_list.RemoveAt ( index );	
-		}
+				
 		
 		public bool AtEnd()
 		{
-			return _list.Count == 0;
+			return _pos >= _list.Count;
 		}
 		
 		public bool NextTokenIs( string tokenValue )
@@ -78,7 +60,7 @@ namespace Ongle
 			if (this.AtEnd())
 				return "";
 			
-			return _list[0].Value;	
+			return _list[_pos].Value;	
 		}
 		
 		/// <summary>
@@ -90,10 +72,29 @@ namespace Ongle
 		public string PullToken ()
 		{
 			string result = PeekToken();
-			if (!this.AtEnd())
-				_list.RemoveAt(0);
-			
+			_pos++;
 			return result;
+		}
+		
+		public bool PullTokenIfEqual ( string tokenValue )
+		{
+			if ( PeekToken() == tokenValue )
+			{
+				_pos++;
+				return true;
+			}
+			else
+				return false;
+		}
+
+		public void SetMark ()
+		{
+			_mark = _pos;			
+		}
+
+		public void RollbackToMark ()
+		{
+			_pos = _mark;
 		}
 		
 		/// <summary>
@@ -104,8 +105,8 @@ namespace Ongle
 		/// </param>
 		public void RemoveNextToken ( string tokenValue )
 		{
-			if (_list[0].Value == tokenValue) 
-				_list.RemoveAt(0);	
+			if (_list[_pos].Value == tokenValue) 
+				_pos++;
 		}
 	}
 }

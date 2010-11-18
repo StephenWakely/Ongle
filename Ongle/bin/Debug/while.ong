@@ -1,0 +1,26 @@
+while = {
+	test = $[0]
+	do = $[1]
+
+	run = {
+		test (continue)
+	}
+
+	continue = {
+		do 
+		run  
+	}
+
+	run 
+}
+
+count = 0
+
+while ({if count < 200 { $[0] } }, 
+	{
+		count = count + 1
+		print count + newline 
+	}
+)
+
+

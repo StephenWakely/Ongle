@@ -1,3 +1,40 @@
 Ongle is the starts of a very basic scripting language for the CLR.
 
 Created for my amusement!
+
+Basic features of Ongle are :
+
+- Ongle is a dynamic language.
+- There are no methods, just closures.
+- Closures cannot return values. Thus all code must pass on their values to closures that are passed in. This encourges development in a Continuation Passing Style. There are many interesting features of this style, most notably the ability to make all calls asynchronous.
+
+There is hardly any syntax.
+
+To assign a variable :
+
+x = 3
+y = 'hello world'
+
+To output to the console :
+
+print 'hello world' + newline
+
+To create a closure :
+
+printstuff = {
+	print 'yay' + newline
+}
+
+To call a closure :
+
+x (parameter1, parameter2)
+
+Currently a closures parameters are passed in the '$' variable. They are accessed like :
+
+dostuff = {
+	print $[0]
+	print $[1]
+}
+
+
+ 

@@ -4,9 +4,7 @@ using Ninject;
 
 namespace Ongle
 {
-	// <ident> := <char> <ident_rest>*
-	// <ident_rest> := <char> | <digit>
-	public class Variable : Expression
+	public class Variable : Expression, ITailCallExecution
 	{
 		public string Ident { get; set; }		
 		public Expression Indexer { get; set; }
@@ -34,6 +32,11 @@ namespace Ongle
 
 		public override void Execute ()
 		{
+			ExecuteWithTailCall();
+		}
+		
+		public ITailCallExecution ExecuteWithTailCall ()
+		{
 			_executor.Scope = this.Scope;
 			Dynamic parameters = null;
 			
@@ -42,7 +45,7 @@ namespace Ongle
 				parameters = Parameters.Evaluate();
 			}
 			
-			_executor.Execute ( this, parameters );
+			return _executor.Execute ( this, parameters );
 		}
 	}
 }

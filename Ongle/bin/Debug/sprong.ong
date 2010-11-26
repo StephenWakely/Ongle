@@ -1,7 +1,10 @@
-ook = {
-	$[0]
+x = {
+	print 'x'
 }
 
-ook( {print 'boo' + $[0] + newline})
+y = {
+	print 'y'
+	x ()
+}
 
-
+y ()

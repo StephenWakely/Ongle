@@ -1,0 +1,13 @@
+count = 0
+
+x = {
+	count = count + 1
+	print count + newline
+	$[0] ()
+}
+
+y = {
+	x (y)
+}
+
+y

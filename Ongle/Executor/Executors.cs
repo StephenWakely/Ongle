@@ -7,33 +7,16 @@ using Ninject;
 namespace Ongle
 {
 
-	public class DeclareVarExecutor : IDeclareVarExecutor
-	{
-		[Inject]
-		public DeclareVarExecutor ( )
-		{
-		}
-
-		public IScope Scope
-		{
-			get;
-			set;
-		}
-
-		public void Execute ( DeclareVar info )
-		{
-			Scope.SetDynamic ( info.Ident, info.Expr.Evaluate () );
-		}
-	}
-
 	public class PrintExecutor : IPrintExecutor
 	{
 		IStandardOut _output;
+		IDebugInfo _debug;
 
 		[Inject]
-		public PrintExecutor ( IStandardOut output )
+		public PrintExecutor ( IStandardOut output, IDebugInfo debug )
 		{
 			_output = output;
+			_debug = debug;
 		}
 
 		public IScope Scope
@@ -44,15 +27,20 @@ namespace Ongle
 
 		public void Execute ( Print info )
 		{
+			_debug.PrintDebugInfo ( "Printing" );
+			
 			_output.Output ( info.Expr.Evaluate ().StringValue );
 		}
 	}
 
 	public class AssignExecutor : IAssignExecutor
 	{
+		IDebugInfo _debug;
+
 		[Inject]
-		public AssignExecutor ( )
+		public AssignExecutor ( IDebugInfo debug )
 		{
+			_debug = debug;
 		}
 
 		public IScope Scope
@@ -63,6 +51,8 @@ namespace Ongle
 
 		public void Execute ( Assign info )
 		{
+			_debug.PrintDebugInfo ( "Assigning : " + info.Ident.Ident );
+			
 			if (Scope == null)
 				Console.WriteLine ( "Scope is null" );
 
@@ -75,9 +65,12 @@ namespace Ongle
 
 	public class IfExecutor : IIfExecutor
 	{
+		IDebugInfo _debug;
+
 		[Inject]
-		public IfExecutor ( )
+		public IfExecutor ( IDebugInfo debug )
 		{
+			_debug = debug;
 		}
 
 		public IScope Scope
@@ -86,20 +79,34 @@ namespace Ongle
 			set;
 		}
 
-		public void Execute ( If info )
+		/// <summary>
+		/// Returns a variable to execute if it was the tail call of the if block. 
+		/// </summary>
+		public ITailCallExecution Execute ( If info )
 		{
+			_debug.PrintDebugInfo ( "Checking If" );
+			
 			Dynamic test = info.Test.Evaluate ();
 
 			if ( test.BoolValue )
-				info.Body.Execute ();
+			{
+				_debug.PrintDebugInfo ( "If passed" );
+				
+				return info.Body.ExecuteBlockWithTailCallElimination ();
+			}
+			
+			return null;
 		}
 	}
 
 	public class VariableExecutor : IVariableExecutor
 	{
+		IDebugInfo _debug;
+
 		[Inject]
-		public VariableExecutor ( )
+		public VariableExecutor ( IDebugInfo debug )
 		{
+			_debug = debug;
 		}
 
 		public IScope Scope
@@ -108,7 +115,12 @@ namespace Ongle
 			set;
 		}
 
-		public void Execute ( Variable variable, Dynamic parameters )
+		/// <summary>
+		/// Calls a block that this variable is assigned to.
+		/// Returns a Variable which holds a block if that was the 
+		/// tail call of this block.
+		/// </summary>
+		public ITailCallExecution Execute ( Variable variable, Dynamic parameters )
 		{
 			Dynamic dynamic = Scope.GetDynamic ( variable.Ident );
 			if (dynamic.Type == DynamicType.arrayType)
@@ -119,9 +131,18 @@ namespace Ongle
 
 			if ( dynamic.BlockValue != null )
 			{
+				_debug.PrintDebugInfo ( "Executing block : " + variable.Ident );
+				
 				dynamic.BlockValue.Scope.AddDynamic ( "$", parameters );
-				dynamic.BlockValue.Execute ();
+				ITailCallExecution tailCall = dynamic.BlockValue.ExecuteBlockWithTailCallElimination ();
+				
+				if (tailCall != null)
+					_debug.PrintDebugInfo ( "Tail call returned : " + tailCall.ToString()  );
+				
+				return tailCall;
 			}
+			
+			return null;
 		}
 	}
 }

@@ -9,6 +9,6 @@ namespace Ongle
 			set;
 		}
 
-		void Execute ( If info );
+		ITailCallExecution Execute ( If info );
 	}
 }

@@ -17,6 +17,7 @@ namespace Tests
 			Bind<IBlockParser> ().To<BlockParser> ().InSingletonScope ();
 			Bind<IExpressionParser> ().To<ExpressionParser> ().InSingletonScope ();
 			Bind<IStandardOut> ().To<StandardOutDummy> ().InSingletonScope ();
+			Bind<IDebugInfo> ().To<DebugInfo> ().InSingletonScope ();
 		}
 
 		public static IKernel GetTestKernel ()

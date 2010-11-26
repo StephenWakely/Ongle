@@ -16,7 +16,7 @@ namespace Ongle
 			{
 				return base.Scope;
 			}
-			set 
+			set
 			{
 				// Nest the heap so we create a new scope.
 				base.Scope = new Scope(value);
@@ -25,10 +25,65 @@ namespace Ongle
 
 		public override void Execute ()
 		{
-			foreach ( IStatement statement in _statements )
+			ExecuteBlock ( false );
+		}
+		
+		private bool IsTailCall (IStatement statement)
+		{
+			return statement == _statements[_statements.Count - 1] && statement is ITailCallExecution;
+		}
+
+		public ITailCallExecution ExecuteBlock ( bool returnTailCall )
+		{
+			int currentStatement = 0;
+			IStatement statement = _statements[currentStatement];
+			
+			while ( statement != null )
 			{
-				statement.Execute ();
+				// Check if this is the tail call
+				if (returnTailCall && IsTailCall(statement))
+				{
+					return statement as ITailCallExecution;
+				}
+				
+				IStatement nextStatement = null;
+				
+				if ( statement is ITailCallExecution )
+				{
+					// Call this statement and handle any tail call it has returned.
+					ITailCallExecution tailCall = (statement as ITailCallExecution).ExecuteWithTailCall ();
+					if ( tailCall != null )
+					{
+						// We should call this tail call next
+						nextStatement = tailCall; 
+					}
+					else
+					{
+						// We should call our next statement 
+						currentStatement++;	
+					}
+				}
+				else
+				{
+					// Execute the next statement as normal
+					statement.Execute ();
+					currentStatement++;	
+				}
+				
+				if ( nextStatement == null && currentStatement < _statements.Count )
+				{
+					nextStatement = _statements[currentStatement];					
+				}
+				
+				statement = nextStatement;
 			}
+			
+			return null;
+		}
+
+		public ITailCallExecution ExecuteBlockWithTailCallElimination ()
+		{
+			return ExecuteBlock ( true );
 		}
 
 		/// <summary>

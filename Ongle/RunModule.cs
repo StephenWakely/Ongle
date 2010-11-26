@@ -15,6 +15,7 @@ namespace Ongle
 			Bind<IBlockParser> ().To<BlockParser> ().InSingletonScope ();
 			Bind<IExpressionParser> ().To<ExpressionParser> ().InSingletonScope ();
 			Bind<IStandardOut> ().To<StandardOut> ().InSingletonScope ();			
+			Bind<IDebugInfo> ().To<DebugInfo> ().InSingletonScope ();
 		}
 
 		public static IKernel GetKernel ()

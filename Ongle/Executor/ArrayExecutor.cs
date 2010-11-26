@@ -13,6 +13,10 @@ namespace Ongle
 			set;
 		}
 
+		public ArrayExecutor ( IDebugInfo debug )
+		{
+		}
+		
 		public void Execute ( Array info )	
 		{
 			

@@ -4,7 +4,7 @@ using Ninject;
 
 namespace Ongle
 {
-	public class If : Expression
+	public class If : Expression, ITailCallExecution
 	{
 		public Expression Test;
 		public Block Body;
@@ -19,8 +19,13 @@ namespace Ongle
 
 		public override void Execute ()
 		{
+			ExecuteWithTailCall ();
+		}
+		
+		public ITailCallExecution ExecuteWithTailCall ()
+		{
 			_executor.Scope = Scope;
-			_executor.Execute ( this );
+			return _executor.Execute ( this );			
 		}
 	}
 }

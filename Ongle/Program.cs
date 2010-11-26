@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Ninject;
 
 namespace Ongle
 {
@@ -10,13 +11,27 @@ namespace Ongle
 	{
 		static void Main ( string[] args )
 		{
-			if ( args.Length != 1 )
+			string scriptFile = "";
+			bool debug = false;
+			
+			foreach ( string arg in args )
 			{
-				Console.WriteLine ( "Specify the script file to run" );
-				return;
+				if (arg == "-debug" || arg == "-d")
+				{
+					Console.WriteLine ( "debuggin" );
+					debug = true;
+				}
+				else
+					scriptFile = arg;			
 			}
+			
+			if (scriptFile == "")
+				Console.WriteLine ( "Specify the script file to run" );
+			
+			IKernel kernel = RunModule.GetKernel();
+			kernel.Get <IDebugInfo> ().PrintToConsole = debug;
 
-			RunOngle ongle = new RunOngle (RunModule.GetKernel());
+			RunOngle ongle = new RunOngle (kernel);
 			FileStream stream = new FileStream ( args[0], FileMode.Open);
 			ongle.Run ( stream );
 		}

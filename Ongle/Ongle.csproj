@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Commandlineparameters>sprong.ong</Commandlineparameters>
+    <Commandlineparameters>while.ong</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -97,6 +97,9 @@
     <Compile Include="Parser\AssignmentParser.cs" />
     <Compile Include="Parser\CallParser.cs" />
     <Compile Include="Exceptions\ParseException.cs" />
+    <Compile Include="IDebugInfo.cs" />
+    <Compile Include="DebugInfo.cs" />
+    <Compile Include="ITailCallExecution.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -111,4 +114,15 @@
     <Folder Include="Executor\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="Mono" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <StandardHeader inheritsSet="LGPLv3License" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>
